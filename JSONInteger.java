@@ -55,7 +55,7 @@ public class JSONInteger implements JSONValue {
    * Compare to another object.
    */
   public boolean equals(Object other) {
-    if (! other instanceof JSONInteger) {
+    if (! (other instanceof JSONInteger)) {
       return false;
     } // if
     JSONInteger that = (JSONInteger) other;
