@@ -1,9 +1,6 @@
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.naming.InitialContext;
-
 /**
  * JSON hashes/objects.
  */
@@ -106,10 +103,10 @@ public class JSONHash implements JSONValue {
    * Set the value associated with a key.
    */
   public void set(JSONString key, JSONValue value) {
-    int keyhash = hash(key);
+    int index = hash(key);
     
     // if key already exists in the table, update the value and return.
-    for (KVPair<JSONString, JSONValue> pair : table[keyhash]) {
+    for (KVPair<JSONString, JSONValue> pair : table[index]) {
       if (pair.key().equals(key)) {
         pair.setValue(value);
         return;
@@ -117,7 +114,7 @@ public class JSONHash implements JSONValue {
     } // for
 
     // else if the value does not exist in the table, add the value to the correct index of 'table'
-    table[keyhash].add(new KVPair<JSONString,JSONValue>(key, value));
+    table[index].add(new KVPair<>(key, value));
     // then, increase the size
     this.size++;
 
