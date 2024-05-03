@@ -35,21 +35,34 @@ public class JSONArray implements JSONValue {
    * Convert to a string (e.g., for printing).
    */
   public String toString() {
-    return "";          // STUB
+    StringBuilder str = new StringBuilder("[");
+    Iterator<JSONValue> iterator = values.iterator();
+    while (iterator.hasNext()) {
+      str.append(iterator.next().toString());
+      if (iterator.hasNext()) {
+        str.append(", ");
+      }
+    }
+    str.append("]");
+    return str.toString();
   } // toString()
 
   /**
    * Compare to another object.
    */
   public boolean equals(Object other) {
-    return true;        // STUB
+    if (! (other instanceof JSONArray)) {
+      return false;
+    }
+    JSONArray jsonArray = (JSONArray) other;
+    return values.equals(jsonArray.values);
   } // equals(Object)
 
   /**
    * Compute the hash code.
    */
   public int hashCode() {
-    return 0;           // STUB
+    return this.values.hashCode();         
   } // hashCode()
 
   // +--------------------+------------------------------------------
@@ -60,7 +73,7 @@ public class JSONArray implements JSONValue {
    * Write the value as JSON.
    */
   public void writeJSON(PrintWriter pen) {
-                        // STUB
+    pen.print(this.toString());
   } // writeJSON(PrintWriter)
 
   /**
