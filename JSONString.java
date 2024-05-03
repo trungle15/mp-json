@@ -33,8 +33,25 @@ public class JSONString implements JSONValue {
    * Convert to a string (e.g., for printing).
    */
   public String toString() {
-    return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
-  } // toString()
+    StringBuilder ret = new StringBuilder();
+    String parseContent;
+
+    // Escape the escape character first
+    parseContent = value.replace("\\", "\\\\");
+
+    // Replace special characters
+    parseContent = parseContent.replace("\"", "\\\"");  // Escape double quotes
+    parseContent = parseContent.replace("\n", "\\n");  // Escape newlines
+    parseContent = parseContent.replace("\r", "\\r");  // Escape carriage returns
+    parseContent = parseContent.replace("\t", "\\t");  // Escape tabs
+    parseContent = parseContent.replace("\b", "\\b");  // Escape backspace
+    parseContent = parseContent.replace("\f", "\\f");  // Escape formfeed
+
+    // Adding first and last quotation mark
+    ret.append("\"").append(parseContent).append("\"");
+
+    return ret.toString();
+  }
 
   /**
    * Compare to another object.
