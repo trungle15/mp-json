@@ -1,6 +1,8 @@
 import java.io.PrintWriter;
 import java.util.Iterator;
 
+import javax.naming.InitialContext;
+
 /**
  * JSON hashes/objects.
  */
@@ -9,10 +11,21 @@ public class JSONHash implements JSONValue {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+  KVPair<JSONString, JSONValue>[] table;
+  int capacity;
+  int size;
+
+  static final int INITIAL_CAPACITY = 16;
 
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
+  @SuppressWarnings("unchecked")
+  public JSONHash() {
+    this.capacity = INITIAL_CAPACITY;
+    this.size = 0;
+    this.table = new KVPair[capacity];
+  }
 
   // +-------------------------+-------------------------------------
   // | Standard object methods |
