@@ -12,7 +12,6 @@ public class JSONHash implements JSONValue {
   private LinkedList<KVPair<JSONString, JSONValue>>[] table;
   private int size;
   private static final int INITIAL_CAPACITY = 16;
-  private static final double LOAD_FACTOR = 0.75;
 
   // +--------------+------------------------------------------------
   // | Constructors |
