@@ -36,21 +36,47 @@ public class JSONHash implements JSONValue {
    * Convert to a string (e.g., for printing).
    */
   public String toString() {
-    return "";          // STUB
+    Iterator<KVPair<JSONString, JSONValue>> it = this.iterator();
+    StringBuilder sb = new StringBuilder("{");
+    while (it.hasNext()) {
+      KVPair<JSONString, JSONValue> pair = it.next();
+      sb.append(pair.key().toString()).append(": ").append(pair.value().toString());
+      if (it.hasNext()) {
+        sb.append(", ");
+      }
+    }
+    sb.append("}");
+    return sb.toString();
   } // toString()
 
   /**
    * Compare to another object.
    */
   public boolean equals(Object other) {
-    return true;        // STUB
+    if (!(other instanceof JSONHash)) {
+      return false;
+    }
+    JSONHash otherHash = (JSONHash) other;
+    if (this.size != otherHash.size) {
+      return false;
+    }
+
+    for (int i = 0; i < this.table.length; i++) {
+      for (KVPair<JSONString, JSONValue> pair : this.table[i]) {
+        JSONValue otherValue = otherHash.get(pair.key());
+        if (otherValue == null || !otherValue.equals(pair.value())) {
+          return false;
+        }
+      }
+    }
+    return true;
   } // equals(Object)
 
   /**
    * Compute the hash code.
    */
   public int hashCode() {
-    return 0;           // STUB
+    return this.table.hashCode();       
   } // hashCode()
 
   // +--------------------+------------------------------------------
@@ -61,7 +87,7 @@ public class JSONHash implements JSONValue {
    * Write the value as JSON.
    */
   public void writeJSON(PrintWriter pen) {
-                        // STUB
+    pen.print(this.toString());
   } // writeJSON(PrintWriter)
 
   /**
@@ -96,7 +122,11 @@ public class JSONHash implements JSONValue {
    * Get all of the key/value pairs.
    */
   public Iterator<KVPair<JSONString,JSONValue>> iterator() {
-    return null;        // STUB
+    LinkedList<KVPair<JSONString, JSONValue>> all = new LinkedList<>();
+      for (LinkedList<KVPair<JSONString, JSONValue>> ht : table) {
+        all.addAll(ht);
+      }
+    return all.iterator();
   } // iterator()
 
   /**
